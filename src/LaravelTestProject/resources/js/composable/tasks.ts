@@ -15,16 +15,18 @@ export default function useTasks() {
         tasks.value = response.data.data;
     };
     const getTask = async (id) => {
-        const response = await axios.get("tasks" + id);
+        const response = await axios.get("tasks/" + id);
         task.value = response.data.data;
     };
     const storeTask = async (data) => {
         try {
-            await axios.post("tasks", data);
-            await router.push({ name: "TaskIndex" });
+            await axios.post("tasks/", data);
+            // await router.push({ name: "TaskIndex" });
+            return;
         } catch (error) {
-            if (error.response && error.response.status === 422) {
+            if (error.response.status === 422) {
                 errors.value = error.response.data.errors;
+                console.log("error detected");
             } else {
                 console.error("An unexpected error occurred:", error);
             }
@@ -32,8 +34,8 @@ export default function useTasks() {
     };
     const updateTask = async (id) => {
         try {
-            await axios.post("tasks" + id, task.value);
-            await router.push({ name: "TaskIndex" });
+            await axios.put("tasks/" + id, task.value);
+            // await router.push({ name: "App" });
         } catch (error) {
             if (error.response && error.response.status === 422) {
                 errors.value = error.response.data.errors;
@@ -43,11 +45,18 @@ export default function useTasks() {
         }
     };
     const destroyTask = async (id) => {
-        if (!window.confirm("are you sure")) {
+        const getTaskById = (id) => {
+            return tasks._value.find((task) => task.id === id);
+        };
+
+        if (
+            !window.confirm(
+                "do you really want to delete " + getTaskById(id).name + " ?"
+            )
+        ) {
             return;
         }
         await axios.delete("tasks/" + id);
-        await getTasks();
     };
     return {
         task,

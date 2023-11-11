@@ -6,7 +6,8 @@
 
 import "./bootstrap";
 import { createApp } from "vue";
-import App from "./components/App.vue";
+import App from "@/components/App.vue";
+import router from "./router/index.js";
 import "../css/app.css";
 
 /**
@@ -16,7 +17,7 @@ import "../css/app.css";
  */
 
 const app = createApp(App);
-app.mount("#app");
+app.use(router).mount("#app");
 
 /**
  * The following block of code may be used to automatically register your

@@ -18,8 +18,7 @@ class TaskResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            // apirouteを引数に
-            'slug' => route('tasks.show', $this->slug)
+            'slug' => $this->slug
         ];
     }
 }

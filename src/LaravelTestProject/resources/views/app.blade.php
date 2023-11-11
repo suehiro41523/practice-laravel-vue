@@ -19,10 +19,9 @@
 
 </head>
 
-<body class="">
+<body class="bg-slate-800">
     <div id="app">
     </div>
-
 </body>
 
 </html>

@@ -12,7 +12,7 @@ create your
 `./docker/php/php.ini`
 Give each file the proper description and run `docker-compose up`
 
-after runnnig compose up command get in to your virtual env and do the following steps
+after running compose up command get in to your virtual env and do the following steps
 
 exec the command below to enter the virtual env  
 `docker-compose exec php bash`
@@ -30,12 +30,12 @@ to install vuejs to this project follow the next steps inside the container
 
 ## composer を使うために
 
-when you want to use `composer` command don't forget to change your current dirrectory to `LaravelTestProject` in your docker terminal
+when you want to use `composer` command don't forget to change your current to `LaravelTestProject` in your docker terminal
 
 ## laravel よくする操作
 
-when you use laravel, it's often the time ehwn you want to edit some database. and the tools you use related to database is the `artisan`
-`artisan` has vary of commands and you might get confused. Here I listed up some frequently used commmands that I noticed in this project
+when you use laravel, it's often the time when you want to edit some database. and the tools you use related to database is the `artisan`
+`artisan` has vary of commands and you might get confused. Here I listed up some frequently used commands that I noticed in this project
 
 1. `php artisan make:migration <create_NAME_table>`  
    this command is to make database more independent and helps database to generate
