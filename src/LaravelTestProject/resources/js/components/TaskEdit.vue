@@ -1,9 +1,12 @@
 <script setup>
-import LayoutBase from "@components/LayoutBase.vue";
+import LayoutBase from "@/components/LayoutBase.vue";
 import useTasks from "@/composable/tasks";
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
-const { task, getTask, updateTask, errors } = useTasks();
+import { tasksStore } from "@/store/store.js";
+
+const { tasks, getTasks, task, getTask, updateTask, errors, destroyTask } =
+    useTasks();
 
 const props = defineProps({
     id: {
@@ -12,12 +15,27 @@ const props = defineProps({
     },
 });
 const router = useRouter();
-onMounted(() => getTask(props.id));
+
+const deleteTask = async (id) => {
+    await destroyTask(id);
+    await (tasksStore.tasks = tasks.value);
+    await router.push("/tasks");
+};
+onMounted(() => {
+    getTask(props.id);
+    getTasks();
+    console.log(tasks);
+});
 </script>
 
 <template>
     <LayoutBase title="Edit Task">
-        <RouterLink to="/tasks"> back to Tasks </RouterLink>
+        <RouterLink
+            class="text-yellow-200 mb-4 block w-fit px-2 text-sm font-bold"
+            to="/tasks"
+        >
+            タスク一覧に戻る
+        </RouterLink>
         <form
             class="flex flex-col gap-6"
             @submit.prevent="
@@ -25,7 +43,7 @@ onMounted(() => getTask(props.id));
             "
         >
             <div class="flex flex-col gap-2">
-                <label for="name">task name</label>
+                <label class="text-sm font-bold" for="name">タスク名</label>
                 <input
                     autocomplete="off"
                     class="text-slate-700 rounded"
@@ -40,23 +58,30 @@ onMounted(() => getTask(props.id));
                 </div>
             </div>
             <div class="flex flex-col gap-2">
-                <label for="slug">task slug</label>
-                <input
-                    autocomplete="off"
-                    class="text-slate-700 rounded"
+                <label class="text-sm font-bold" for="content">詳細</label>
+                <textarea
+                    class="text-slate-700 rounded resize-y h-28"
                     type="text"
-                    id="slug"
-                    v-model="task.slug"
+                    id="content"
+                    v-model="task.content"
                 />
-                <div v-if="errors.slug">
+                <div v-if="errors.content">
                     <span class="text-red-400">
-                        {{ errors.slug[0] }}
+                        {{ errors.content[0] }}
                     </span>
                 </div>
             </div>
             <button class="bg-slate-700 py-1 rounded" type="submit">
-                submit
+                送信
             </button>
+            <div class="cursor-pointer">
+                <div
+                    class="ml-auto px-4 py-1 text-red-400 text-sm font-bold rounded w-fit"
+                    @click="() => deleteTask($route.params.id)"
+                >
+                    タスクの削除
+                </div>
+            </div>
         </form>
     </LayoutBase>
 </template>

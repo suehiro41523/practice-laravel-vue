@@ -1,5 +1,5 @@
 {
-  "cSpell.words": ["Laravel", "suehirotatsuya", "Tailwindcss", "vuejs"],
+  "cSpell.words": ["Laravel", "suehirotatsuya", "Tailwindcss", "vuejs", "vuex"],
   "cSpell.ignorePaths": [
     "**/src/Laravel/TestProject/app/Http",
     "/src/LaravelTestProject/app/Http/Resources",

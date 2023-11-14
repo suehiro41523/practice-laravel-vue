@@ -26,8 +26,8 @@ class StoreTaskRequest extends FormRequest
         return [
             // nameのデータは必須、最短3文字、最長30文字
             'name' => ['required', 'min:3', 'max:30'],
-            // slugのデータは必須、tasksはapiRouteから持ってきている
-            'slug' => ['required', 'unique:tasks,slug']
+            // contentのデータは空でも良い
+            'content' => ['nullable', 'string']
         ];
     }
 }

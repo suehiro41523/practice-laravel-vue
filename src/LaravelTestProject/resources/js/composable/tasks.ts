@@ -21,7 +21,7 @@ export default function useTasks() {
     const storeTask = async (data) => {
         try {
             await axios.post("tasks/", data);
-            // await router.push({ name: "TaskIndex" });
+            errors.value = {};
             return;
         } catch (error) {
             if (error.response.status === 422) {
@@ -46,14 +46,10 @@ export default function useTasks() {
     };
     const destroyTask = async (id) => {
         const getTaskById = (id) => {
-            return tasks._value.find((task) => task.id === id);
+            return tasks._value.find((task) => task.id == id);
         };
 
-        if (
-            !window.confirm(
-                "do you really want to delete " + getTaskById(id).name + " ?"
-            )
-        ) {
+        if (!window.confirm(getTaskById(id).name + " を本当に削除しますか？")) {
             return;
         }
         await axios.delete("tasks/" + id);
