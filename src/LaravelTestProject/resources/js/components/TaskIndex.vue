@@ -1,5 +1,6 @@
 <script setup>
-import { reactive, onMounted, KeepAlive } from "vue";
+import { reactive, onMounted } from "vue";
+
 import useTasks from "@/composable/tasks";
 import LayoutBase from "./LayoutBase.vue";
 import { tasksStore } from "@/store/store.js";
@@ -12,7 +13,6 @@ onMounted(() => {
     getTasks();
     tasksStore.tasks = tasks;
 });
-// watch(tasks, () => (tasks._value = tasks.value));
 </script>
 
 <script></script>

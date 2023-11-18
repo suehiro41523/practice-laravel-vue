@@ -1,6 +1,7 @@
 <script setup>
-import { reactive, onMounted } from "vue";
+import { reactive, onMounted, computed } from "vue";
 import { RouterLink } from "vue-router";
+import { marked } from "marked";
 
 import LayoutBase from "@/components/LayoutBase.vue";
 import TaskIndex from "@/components/TaskIndex.vue";
@@ -21,6 +22,9 @@ const createTask = async () => {
 const form = reactive({
     name: "",
     content: "no content",
+});
+const compiledMarkdown = computed(() => {
+    return marked(form.content, { sanitize: true });
 });
 </script>
 
@@ -58,6 +62,19 @@ const form = reactive({
                                 {{ errors.name[0] }}
                             </span>
                         </div>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label for="content">詳細(マークダウン)</label>
+                        <textarea
+                            id="content"
+                            class="text-slate-700 rounded"
+                            v-model="form.content"
+                            @input="update"
+                        ></textarea>
+                    </div>
+                    <div class="compiled-markdown">
+                        <span>プレビュー</span>
+                        <div v-html="compiledMarkdown"></div>
                     </div>
                     <button class="bg-slate-700 py-1 rounded" type="submit">
                         submit

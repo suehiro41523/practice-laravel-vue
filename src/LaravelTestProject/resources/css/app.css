@@ -6,3 +6,25 @@ input,
 textarea {
     @apply outline-none p-1;
 }
+
+.compiled-markdown {
+    h1 {
+        @apply text-2xl font-bold leading-10;
+    }
+    h2 {
+        @apply text-2xl font-bold;
+    }
+    h3 {
+        @apply text-xl font-bold;
+    }
+    ul {
+        @apply list-disc pl-4;
+    }
+    code {
+        @apply bg-slate-700 rounded px-1;
+    }
+    strong,
+    em {
+        @apply font-semibold;
+    }
+}

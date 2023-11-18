@@ -1,12 +1,39 @@
 <script setup>
+import { reactive, ref, onMounted, computed, nextTick, onUpdated } from "vue";
+import { useRouter } from "vue-router";
+import { Marked } from "marked";
+import * as DOMPurify from "dompurify";
 import LayoutBase from "@/components/LayoutBase.vue";
 import useTasks from "@/composable/tasks";
-import { onMounted } from "vue";
-import { useRouter } from "vue-router";
 import { tasksStore } from "@/store/store.js";
 
 const { tasks, getTasks, task, getTask, updateTask, errors, destroyTask } =
     useTasks();
+const marked = new Marked();
+
+marked.setOptions({
+    breaks: true,
+});
+onMounted(() => {
+    getTask(props.id);
+});
+
+const parsedMarkdown = computed(() => {
+    return marked(markdown.value);
+});
+
+const parsedTask = () => {
+    try {
+        console.log(task);
+        return marked.parse(task.value.content);
+    } catch (error) {
+        setTimeout(() => {
+            console.log(task);
+            return marked.parse(task);
+        }, 500);
+    }
+};
+console.log(parsedTask());
 
 const props = defineProps({
     id: {
@@ -14,6 +41,7 @@ const props = defineProps({
         type: String,
     },
 });
+
 const router = useRouter();
 
 const deleteTask = async (id) => {
@@ -21,11 +49,6 @@ const deleteTask = async (id) => {
     await (tasksStore.tasks = tasks.value);
     await router.push("/tasks");
 };
-onMounted(() => {
-    getTask(props.id);
-    getTasks();
-    console.log(tasks);
-});
 </script>
 
 <template>
@@ -70,6 +93,10 @@ onMounted(() => {
                         {{ errors.content[0] }}
                     </span>
                 </div>
+            </div>
+            <div class="compiled-markdown">
+                <span class="text-sm">プレビュー</span>
+                <div class="" v-html="parsedTask()"></div>
             </div>
             <button class="bg-slate-700 py-1 rounded" type="submit">
                 送信
